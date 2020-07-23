@@ -1,5 +1,7 @@
 function defineReactive (data, key, val) {
-  // 用于收集依赖
+  if (typeof val === 'object') new Observer(val)
+
+  // 存放依赖
   let dep = new Dep()
 
   // 如何追踪变化
@@ -23,7 +25,7 @@ function defineReactive (data, key, val) {
  * 管理依赖的类
  * 所谓依赖，就是用到了data的地方，当data变化，需要通知依赖去更新
  */
-export default class Dep {
+class Dep {
   constructor () {
     this.subs = []
   }
@@ -50,6 +52,57 @@ export default class Dep {
   }
 }
 
+/**
+ * Watcher作为一个中介，集中处理收集所有用到data的情况
+ * 依赖收集阶段只收集这个类的实例，通知也只通知它一个，它再通知其他地方。
+ */
+class Watcher {
+  constructor(vm, expOrFn, cb) {
+    this.vm = vm
+    this.getter = parsePath(expOrFn)
+    this.cb = cb
+    this.value = this.get()
+  }
+
+  get () {
+    window.target = this
+    let value = this.getter.call(this.vm, this.vm)
+    window.target = undefined
+    return value
+  }
+
+  update () {
+    const oldValue = this.value
+    this.value = this.get()
+    this.cb.call(this.vm, this.value, oldValue)
+  }
+}
+
+
+/**
+ * 将data上的属性全部进行getter/setter形式的转化来侦测变化
+ *
+ * @export
+ * @class Observer
+ */
+class Observer {
+  constructor (value) {
+    this.value = value
+    if (!Array.isArray(value)) this.walk(value)
+  }
+
+  walk (obj) {
+    const keys = Object.keys(obj)
+    for (let i = 0; i < keys.length; i++) {
+      defineReactive(obj, keys[i], obj[keys[i]])
+    }
+  }
+}
+
+// 基础工具
+/**
+ * Remove an item from an array.
+ */
 function remove (arr, item) {
   if (arr.length) {
     const index = arr.indexOf(item)
@@ -58,3 +111,30 @@ function remove (arr, item) {
     }
   }
 }
+
+/**
+ * Parse simple path.
+ */
+function parsePath(path) {
+  const bailRE = /[^\w.$]/
+  if (bailRE.test(path)) return
+  const segments = path.split('.')
+  return function (obj) {
+    for (let i = 0; i < segments.length; i++) {
+      if (!obj) return
+      obj = obj[segments[i]]
+    }
+    return obj
+  }
+}
+
+// 测试
+var data = {
+  dawn: 'xuu'
+}
+
+window.target = function (newVal, oldVal) {
+  console.log('收到了通知！', `newVal = ${newVal} oldVal = ${oldValue}`)
+}
+
+var watcher = new Watcher(this, 'data.dawn', window.target)

@@ -10,6 +10,7 @@
 <body>
   <div id="app">
     {{ message }}
+    <button v-on:click="greet">Greet</button>
   </div>
 
   <script>
@@ -17,7 +18,17 @@
       el: '#app',
       data: {
         message: 'Hello Vue!'
-      }
+      },
+      watch: {
+        message: function w (newVal, oldVal) {
+          alert('123')
+        }
+      },
+      methods: {
+        greet () {
+          this.message += '1'
+        }
+      },
     })
   </script>
 </body>
