@@ -133,8 +133,8 @@ var data = {
   dawn: 'xuu'
 }
 
-window.target = function (newVal, oldVal) {
+window.target = function text (newVal, oldVal) {
   console.log('收到了通知！', `newVal = ${newVal} oldVal = ${oldValue}`)
 }
 
-var watcher = new Watcher(this, 'data.dawn', window.target)
+var watcher = new Watcher(data, 'dawn', window.target)
