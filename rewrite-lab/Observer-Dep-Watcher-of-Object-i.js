@@ -1,4 +1,5 @@
 function defineReactive (data, key, val) {
+  debugger
   if (typeof val === 'object') new Observer(val)
 
   // 存放依赖
@@ -14,6 +15,7 @@ function defineReactive (data, key, val) {
       return val
     },
     set: function (newVal) {
+      debugger
       if (newVal === val) return
       val = newVal
       dep.notify()
@@ -27,6 +29,7 @@ function defineReactive (data, key, val) {
  */
 class Dep {
   constructor () {
+    debugger
     this.subs = []
   }
 
@@ -58,6 +61,7 @@ class Dep {
  */
 class Watcher {
   constructor(vm, expOrFn, cb) {
+    debugger
     this.vm = vm
     this.getter = parsePath(expOrFn)
     this.cb = cb
@@ -87,6 +91,7 @@ class Watcher {
  */
 class Observer {
   constructor (value) {
+    debugger
     this.value = value
     if (!Array.isArray(value)) this.walk(value)
   }
@@ -133,8 +138,10 @@ var data = {
   dawn: 'xuu'
 }
 
-window.target = function (newVal, oldVal) {
-  console.log('收到了通知！', `newVal = ${newVal} oldVal = ${oldValue}`)
-}
+new Observer(data)
 
-var watcher = new Watcher(this, 'data.dawn', window.target)
+window.target = ''
+
+var watcher = new Watcher(data, 'dawn', (newVal, oldVal) => {
+  console.log('通知更新了', `newVal = ${newVal} oldVal = ${oldVal}`)
+})
