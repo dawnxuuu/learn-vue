@@ -140,8 +140,6 @@ var data = {
 
 new Observer(data)
 
-window.target = ''
-
 var watcher = new Watcher(data, 'dawn', (newVal, oldVal) => {
   console.log('通知更新了', `newVal = ${newVal} oldVal = ${oldVal}`)
 })
