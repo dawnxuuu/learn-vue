@@ -9,7 +9,7 @@
 </head>
 <body>
   <div id="app">
-    {{ message }}
+    {{ message }} {{ count }}
     <button v-on:click="greet">Greet</button>
   </div>
 
@@ -17,16 +17,17 @@
     var vm = new Vue({
       el: '#app',
       data: {
-        message: 'Hello Vue!'
+        message: 'Hello Vue!',
+        count: 0
       },
       watch: {
-        message: function w (newVal, oldVal) {
+        count: function w (newVal, oldVal) {
           alert('123')
         }
       },
       methods: {
         greet () {
-          this.message += '1'
+          this.count += 1
         }
       },
     })
