@@ -1,8 +1,9 @@
-function observer (value) {
+function observe (value) {
   if (!isObject(value)) return
 
   let ob
   ob = new Observer()
+  return ob
 }
 
 /**
@@ -15,6 +16,9 @@ class Observer {
   constructor (value) {
     debugger
     this.value = value
+    this.dep = new Dep()
+    def(value, '__ob__', this)
+
     if (!Array.isArray(value)) this.walk(value)
   }
 
@@ -26,27 +30,35 @@ class Observer {
   }
 }
 
-function defineReactive (data, key, val) {
-  debugger
-  if (typeof val === 'object') new Observer(val)
+function def (obj, key, val, enumerable) {
+  Object.defineProperty(obj, key, {
+    value: val,
+    enumerable: !!enumerable,
+    writable: true,
+    configurable: true
+  })
+}
 
-  // 存放依赖
-  let dep = new Dep()
+function defineReactive (obj, key, val) {
+  debugger
+  if (isObject(val)) observe(val)
 
   // 如何追踪变化
   // Object.defineProperty 可以侦测到对象的变化
-  Object.defineProperty(data, key, {
+  Object.defineProperty(obj, key, {
     enumerable: true,
     configurable: true,
     get: function () {
-      dep.depend()
+      const ob = this.__ob__
+      ob.dep.depend()
       return val
     },
     set: function (newVal) {
       debugger
       if (newVal === val) return
       val = newVal
-      dep.notify()
+      const ob = this.__ob__
+      ob.dep.notify()
     }
   })
 }
@@ -70,9 +82,8 @@ class Dep {
   }
 
   depend () {
-    if (window.target) {
-      this.addSub(window.target)
-    }
+    debugger
+    this.addSub(Dep.target)
   }
 
   notify () {
@@ -82,6 +93,8 @@ class Dep {
     }
   }
 }
+
+Dep.target = null
 
 /**
  * Watcher作为一个中介，集中处理收集所有用到data的情况
@@ -97,9 +110,9 @@ class Watcher {
   }
 
   get () {
-    window.target = this
+    Dep.target = this
     let value = this.getter.call(this.vm, this.vm)
-    window.target = undefined
+    Dep.target = null
     return value
   }
 
@@ -140,7 +153,7 @@ function parsePath(path) {
 }
 
 function isObject (obj) {
-  return obj !== nul && typeof obj === 'object'
+  return obj !== null && typeof obj === 'object'
 }
 
 // 测试

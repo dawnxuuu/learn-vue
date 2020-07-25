@@ -981,6 +981,7 @@
    * or the existing observer if the value already has one.
    */
   function observe (value, asRootData) {
+    debugger
     if (!isObject(value) || value instanceof VNode) {
       return
     }
