@@ -1,10 +1,11 @@
 (function (global, factory) {
+  debugger
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
   (global = global || self, global.Vue = factory());
 }(this, function () { 'use strict';
   /* 2.6.10 */
-
+  debugger
   var emptyObject = Object.freeze({});
 
   // These helpers produce better VM code in JS engines due to their
@@ -4686,6 +4687,7 @@
   }
 
   function initData (vm) {
+    debugger
     var data = vm.$options.data;
     data = vm._data = typeof data === 'function'
       ? getData(data, vm)
