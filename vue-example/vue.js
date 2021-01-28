@@ -1,11 +1,9 @@
 (function (global, factory) {
-  debugger
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
   (global = global || self, global.Vue = factory());
 }(this, function () { 'use strict';
   /* 2.6.10 */
-  debugger
   var emptyObject = Object.freeze({});
 
   // These helpers produce better VM code in JS engines due to their
@@ -1039,6 +1037,7 @@
       enumerable: true,
       configurable: true,
       get: function reactiveGetter () {
+        debugger
         var value = getter ? getter.call(obj) : val;
         if (Dep.target) {
           dep.depend();
@@ -1052,6 +1051,7 @@
         return value
       },
       set: function reactiveSetter (newVal) {
+        debugger
         var value = getter ? getter.call(obj) : val;
         /* eslint-disable no-self-compare */
         if (newVal === value || (newVal !== newVal && value !== value)) {
@@ -3521,6 +3521,7 @@
     };
 
     Vue.prototype._render = function () {
+      debugger
       var vm = this;
       var ref = vm.$options;
       var render = ref.render;
@@ -3930,6 +3931,7 @@
 
   function lifecycleMixin (Vue) {
     Vue.prototype._update = function (vnode, hydrating) {
+      debugger
       var vm = this;
       var prevEl = vm.$el;
       var prevVnode = vm._vnode;
@@ -4016,6 +4018,7 @@
     el,
     hydrating
   ) {
+    debugger
     vm.$el = el;
     if (!vm.$options.render) {
       vm.$options.render = createEmptyVNode;
@@ -4635,6 +4638,7 @@
   }
 
   function initState (vm) {
+    debugger
     vm._watchers = [];
     var opts = vm.$options;
     if (opts.props) { initProps(vm, opts.props); }
@@ -4907,7 +4911,6 @@
   }
 
   function stateMixin (Vue) {
-    debugger
     // flow somehow has problems with directly declared definition object
     // when using Object.defineProperty, so we have to procedurally build up
     // the object here.
@@ -4964,8 +4967,8 @@
   var uid$3 = 0;
 
   function initMixin (Vue) {
-    debugger
     Vue.prototype._init = function (options) {
+      debugger
       var vm = this;
       // a uid
       vm._uid = uid$3++;
@@ -9048,6 +9051,7 @@
     el,
     hydrating
   ) {
+    debugger
     el = el && inBrowser ? query(el) : undefined;
     return mountComponent(this, el, hydrating)
   };
@@ -10945,6 +10949,7 @@
     ast,
     options
   ) {
+    debugger
     var state = new CodegenState(options);
     var code = ast ? genElement(ast, state) : '_c("div")';
     return {

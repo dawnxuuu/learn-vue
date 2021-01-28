@@ -9,7 +9,7 @@
 </head>
 <body>
   <div id="app">
-    <!-- {{ message }} {{ count }} -->
+    {{ count }}
     <button v-on:click="greet">Greet</button>
   </div>
 
@@ -17,13 +17,9 @@
     debugger
     var vm = new Vue({
       el: '#app',
-      data: {
-        // message: 'Hello Vue!',
-        count: 0
-      },
-      watch: {
-        count: function w (newVal, oldVal) {
-          alert(`${newVal} <= ${oldVal}`)
+      data () {
+        return {
+          count: 0
         }
       },
       methods: {
