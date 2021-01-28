@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <script src="./vue.js"></script>
+  <script src="./vue.js"> </script>
 </head>
 <body>
   <div id="app">
-    {{ message }} {{ count }}
+    <!-- {{ message }} {{ count }} -->
     <button v-on:click="greet">Greet</button>
   </div>
 
@@ -18,12 +18,12 @@
     var vm = new Vue({
       el: '#app',
       data: {
-        message: 'Hello Vue!',
+        // message: 'Hello Vue!',
         count: 0
       },
       watch: {
         count: function w (newVal, oldVal) {
-          alert('123')
+          alert(`${newVal} <= ${oldVal}`)
         }
       },
       methods: {

@@ -709,11 +709,13 @@
    * directives subscribing to it.
    */
   var Dep = function Dep () {
+    debugger
     this.id = uid++;
     this.subs = [];
   };
 
   Dep.prototype.addSub = function addSub (sub) {
+    debugger
     this.subs.push(sub);
   };
 
@@ -722,6 +724,7 @@
   };
 
   Dep.prototype.depend = function depend () {
+    debugger
     if (Dep.target) {
       Dep.target.addDep(this);
     }
@@ -729,6 +732,7 @@
 
   Dep.prototype.notify = function notify () {
     // stabilize the subscriber list first
+    debugger
     var subs = this.subs.slice();
     if (!config.async) {
       // subs aren't sorted in scheduler if not running async
@@ -748,11 +752,13 @@
   var targetStack = [];
 
   function pushTarget (target) {
+    debugger
     targetStack.push(target);
     Dep.target = target;
   }
 
   function popTarget () {
+    debugger
     targetStack.pop();
     Dep.target = targetStack[targetStack.length - 1];
   }
@@ -4413,6 +4419,7 @@
     options,
     isRenderWatcher
   ) {
+    debugger
     this.vm = vm;
     if (isRenderWatcher) {
       vm._watcher = this;
@@ -4461,6 +4468,7 @@
    * Evaluate the getter, and re-collect dependencies.
    */
   Watcher.prototype.get = function get () {
+    debugger
     pushTarget(this);
     var value;
     var vm = this.vm;
@@ -4488,6 +4496,7 @@
    * Add a dependency to this directive.
    */
   Watcher.prototype.addDep = function addDep (dep) {
+    debugger
     var id = dep.id;
     if (!this.newDepIds.has(id)) {
       this.newDepIds.add(id);
@@ -4539,6 +4548,7 @@
    * Will be called by the scheduler.
    */
   Watcher.prototype.run = function run () {
+    debugger
     if (this.active) {
       var value = this.get();
       if (
@@ -4578,6 +4588,7 @@
    * Depend on all deps collected by this watcher.
    */
   Watcher.prototype.depend = function depend () {
+    debugger
     var i = this.deps.length;
     while (i--) {
       this.deps[i].depend();
@@ -4588,6 +4599,7 @@
    * Remove self from all dependencies' subscriber list.
    */
   Watcher.prototype.teardown = function teardown () {
+    debugger
     if (this.active) {
       // remove self from vm's watcher list
       // this is a somewhat expensive operation so we skip it
@@ -4883,6 +4895,7 @@
     handler,
     options
   ) {
+    debugger
     if (isPlainObject(handler)) {
       options = handler;
       handler = handler.handler;
@@ -4925,6 +4938,7 @@
       cb,
       options
     ) {
+      debugger
       var vm = this;
       if (isPlainObject(cb)) {
         return createWatcher(vm, expOrFn, cb, options)

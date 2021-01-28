@@ -7,7 +7,7 @@
 </head>
 <body>
   <div id="demo">
-    <div v-text="text"></div>
+    <div v-text="myContent"></div>
   </div>
 
   <script>
@@ -17,10 +17,14 @@
         this.$options = options;
         this._data = options.data;
         this.$el =document.querySelector(options.el);
+        // 将options.data中的属性一一挂载到vue实例上
         Object.keys(options.data).forEach(key => this._proxy(key))
+        // 将data中的每个属性定义setter getter
         observer(options.data)
+
         watch(this, this._render.bind(this), this._update.bind(this))
       }
+      // 将options.data中的属性一一挂载到vue实例上
       _proxy(key) {
         const self = this
         Object.defineProperty(self, key, {
@@ -41,7 +45,6 @@
       _render() {
         this._bindText();
       }
-
       _bindText() {
         let textDOMs=this.$el.querySelectorAll('[v-text]'),
         bindText;
@@ -55,10 +58,12 @@
       }
     }
 
+    // 观察data中的属性
     function observer(value, cb){
       Object.keys(value).forEach((key) => defineReactive(value, key, value[key] , cb))
     }
 
+    // 定义属性的setter getter
     function defineReactive(obj, key, val, cb) {
       const dep = new Dep()
       Object.defineProperty(obj, key, {
@@ -113,13 +118,17 @@
     var demo = new Vue({
       el: '#demo',
       data: {
-        text: "hello world"	
+        myContent: "hello world"	
       }	
     })
 
     setTimeout(function(){
-      demo.text = "hello new world"
+      demo.myContent = "hello new world"
     }, 1000)
+
+    setTimeout(function(){
+      demo.myContent = "第二次变化看执行几次watcher回调"
+    }, 2000)
   </script>
 </body>
 </html>
