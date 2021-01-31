@@ -718,6 +718,7 @@
   };
 
   Dep.prototype.removeSub = function removeSub (sub) {
+    debugger
     remove(this.subs, sub);
   };
 
@@ -750,13 +751,11 @@
   var targetStack = [];
 
   function pushTarget (target) {
-    debugger
     targetStack.push(target);
     Dep.target = target;
   }
 
   function popTarget () {
-    debugger
     targetStack.pop();
     Dep.target = targetStack[targetStack.length - 1];
   }
@@ -3351,6 +3350,7 @@
     normalizationType,
     alwaysNormalize
   ) {
+    debugger
     if (Array.isArray(data) || isPrimitive(data)) {
       normalizationType = children;
       children = data;
@@ -3545,6 +3545,7 @@
         // separately from one another. Nested component's render fns are called
         // when parent component is patched.
         currentRenderingInstance = vm;
+        debugger // 划重点
         vnode = render.call(vm._renderProxy, vm.$createElement);
       } catch (e) {
         handleError(e, vm, "render");
@@ -4536,6 +4537,7 @@
    * Will be called when a dependency changes.
    */
   Watcher.prototype.update = function update () {
+    debugger
     /* istanbul ignore else */
     if (this.lazy) {
       this.dirty = true;
@@ -6039,6 +6041,7 @@
     }
 
     function insert (parent, elm, ref$$1) {
+      debugger
       if (isDef(parent)) {
         if (isDef(ref$$1)) {
           if (nodeOps.parentNode(ref$$1) === parent) {
@@ -6516,6 +6519,7 @@
           var oldElm = oldVnode.elm;
           var parentElm = nodeOps.parentNode(oldElm);
 
+          debugger
           // create new node
           createElm(
             vnode,
@@ -6527,6 +6531,7 @@
             nodeOps.nextSibling(oldElm)
           );
 
+          debugger
           // update parent placeholder node element, recursively
           if (isDef(vnode.parent)) {
             var ancestor = vnode.parent;
@@ -6557,6 +6562,7 @@
             }
           }
 
+          debugger
           // destroy old node
           if (isDef(parentElm)) {
             removeVnodes(parentElm, [oldVnode], 0, 0);
