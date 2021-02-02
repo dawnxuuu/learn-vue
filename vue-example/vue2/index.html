@@ -9,7 +9,10 @@
 </head>
 <body>
   <div id="app">
-    {{ count }}
+    <p>count: {{ count }}</p>
+    <p>doubleCount: {{ doubleCount }}</p>
+    <p>toy.duck: {{ toy.duck }}</p>
+    <p>myArr: {{ myArrString }}</p>
     <button v-on:click="greet">Greet</button>
   </div>
 
@@ -19,12 +22,31 @@
       el: '#app',
       data () {
         return {
-          count: 0
+          count: 0,
+          toy: {
+            duck: ''
+          },
+          myArr: ['1只']
+        }
+      },
+      computed: {
+        doubleCount () {
+          return this.count * 2
+        },
+        myArrString () {
+          return JSON.stringify(this.myArr)
+        }
+      },
+      watch: {
+        count: function w (newVal, oldVal) {
+          alert(`${newVal} - ${oldVal}`)
         }
       },
       methods: {
         greet () {
           this.count += 1
+          this.toy.duck += '嘎'
+          this.myArr.push(`${this.count}只`)
         }
       },
     })
