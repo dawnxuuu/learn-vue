@@ -707,7 +707,6 @@
    * directives subscribing to it.
    */
   var Dep = function Dep () {
-    debugger
     this.id = uid++;
     this.subs = [];
   };

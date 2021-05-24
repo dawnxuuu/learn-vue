@@ -1,6 +1,6 @@
 var Vue = (function (exports) {
   'use strict';
-
+   debugger
   /**
    * Make a map and return a function for checking if a key
    * is in that map.
@@ -4072,6 +4072,7 @@ var Vue = (function (exports) {
   let uid$1 = 0;
   function createAppAPI(render, hydrate) {
       return function createApp(rootComponent, rootProps = null) {
+          debugger
           if (rootProps != null && !isObject(rootProps)) {
                warn(`root props passed to app.mount() must be an object.`);
               rootProps = null;
@@ -9150,6 +9151,7 @@ var Vue = (function (exports) {
       }
       const { mount } = app;
       app.mount = (containerOrSelector) => {
+          debugger
           const container = normalizeContainer(containerOrSelector);
           if (!container)
               return;
